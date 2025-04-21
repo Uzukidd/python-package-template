@@ -18,6 +18,9 @@ def make_cuda_ext(name, module, sources, include_dirs):
 
 if __name__ == "__main__":
     setuptools.setup(
+        cmdclass={
+            'build_ext': BuildExtension,
+        },
         ext_modules=[
             # make_cuda_ext(
             #     name='iou3d_nms_cuda',

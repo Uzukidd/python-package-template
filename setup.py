@@ -3,6 +3,7 @@ import os
 import torch
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension
 
+
 def make_cuda_ext(name, module, sources):
     cuda_ext = CUDAExtension(
         name='%s.%s' % (module, name),
@@ -13,18 +14,29 @@ def make_cuda_ext(name, module, sources):
 #     with open(target_file, 'w') as f:
 #         print('__version__ = "%s"' % version, file=f)
 
+
 if __name__ == "__main__":
-    setuptools.setup(cmdclass = {
-            'build_ext': BuildExtension,
-        }, 
-        ext_modules = [
+    setuptools.setup(
+        ext_modules=[
+            # make_cuda_ext(
+            #     name='iou3d_nms_cuda',
+            #     module='compute.op.iou3d_nms',
+            #     sources=[
+            #         'src/iou3d_cpu.cpp',
+            #         'src/iou3d_nms_api.cpp',
+            #         'src/iou3d_nms.cpp',
+            #         'src/iou3d_nms_kernel.cu',
+            #     ]
+            # ),
             make_cuda_ext(
                 name='vector_add',
-                module='compute.ops.vector_compute',
+                module='compute.op.vector_compute',
                 sources=[
-                    'src/vector_add.cu',
+                    'src/vector_add_kernal.cu',
+                    'src/vector_add.cpp',
                 ]
-            )],)
+            ),
+            ],)
     # version = '0.6.0+%s' % get_git_commit_number()
     # write_version_to_file(version, 'pcdet/version.py')
 
@@ -89,10 +101,10 @@ if __name__ == "__main__":
     #                 'src/group_points.cpp',
     #                 'src/group_points_gpu.cu',
     #                 'src/sampling.cpp',
-    #                 'src/sampling_gpu.cu', 
-    #                 'src/interpolate.cpp', 
+    #                 'src/sampling_gpu.cu',
+    #                 'src/interpolate.cpp',
     #                 'src/interpolate_gpu.cu',
-    #                 'src/voxel_query.cpp', 
+    #                 'src/voxel_query.cpp',
     #                 'src/voxel_query_gpu.cu',
     #                 'src/vector_pool.cpp',
     #                 'src/vector_pool_gpu.cu'

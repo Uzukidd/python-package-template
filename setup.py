@@ -4,10 +4,11 @@ import torch
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension
 
 
-def make_cuda_ext(name, module, sources):
+def make_cuda_ext(name, module, sources, include_dirs):
     cuda_ext = CUDAExtension(
         name='%s.%s' % (module, name),
-        sources=[os.path.join(*module.split('.'), src) for src in sources]
+        sources=[os.path.join(*module.split('.'), src) for src in sources],
+        include_dirs=[os.path.join(*module.split('.'), src) for src in include_dirs],
     )
     return cuda_ext
 # def write_version_to_file(version, target_file):
@@ -32,8 +33,11 @@ if __name__ == "__main__":
                 name='vector_add',
                 module='compute.op.vector_compute',
                 sources=[
-                    'src/vector_add_kernal.cu',
                     'src/vector_add.cpp',
+                    'src/vector_add_kernal.cu',
+                ],
+                include_dirs=[
+                    'src/vector_add.h',
                 ]
             ),
             ],)

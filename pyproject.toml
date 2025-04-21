@@ -1,0 +1,48 @@
+[build-system]
+requires = [
+    "setuptools >= 77.0.3",
+    "wheel",
+    "setuptools-scm>=8"  # Replaces git commit version logic
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+dynamic = ["version"]
+name = "your-package-name"
+description = "Your package description"
+authors = [
+    {name = "Uzuki Ishikawajima", email = "uzukidd@gmail.com"}
+]
+
+readme = "README.md"
+license = {text = "MIT License"}
+requires-python = ">=3.12"
+dependencies = ["numpy"]
+
+[project.optional-dependencies]
+cuda = ["torch"]
+
+[tool.poetry]
+exclude = ["test"]
+include = ["compute"]
+
+# Dynamic version configuration (replaces git commit logic)
+[tool.setuptools_scm]
+write_to = "compute/_version.py"
+write_to_template = '__version__ = "{version}"'
+
+[project.scripts]
+add_float = "compute:add_float"
+
+# [tool.setuptools.cuda]
+# architectures = ["sm_86", "sm_89"]  # 支持的GPU架构
+
+# [tool.setuptools]
+# ext-modules = [
+#     {
+#         name = "compute.op.vector_add.vector_add",
+#         sources = ["compute/op/vector_add/src/vector_add.cu"],
+#         include-dirs = [],
+#         py-limited-api = true
+#     }
+# ]

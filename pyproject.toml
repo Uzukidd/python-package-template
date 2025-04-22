@@ -1,0 +1,29 @@
+[build-system]
+requires = [
+    "setuptools >= 77.0.3",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+dynamic = ["version"]
+name = "your-package-name"
+description = "Your package description"
+authors = [
+    {name = "Uzuki Ishikawajima", email = "uzukidd@gmail.com"}
+]
+
+readme = "README.md"
+license = {text = "MIT License"}
+requires-python = ">=3.6"
+dependencies = ["torch"]
+
+[project.optional-dependencies]
+cpu = ["numpy"]
+
+[tool.poetry]
+exclude = ["test"]
+include = ["compute"]
+
+[project.scripts]
+add_float = "compute:add_float"
